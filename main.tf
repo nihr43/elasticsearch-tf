@@ -73,6 +73,10 @@ resource "kubernetes_deployment" "main" {
             name  = "ES_JAVA_OPTS"
             value = "-Xms${var.memory}g -Xmx${var.memory}g"
           }
+          env {
+            name  = "discovery.type"
+            value = "single-node"
+          }
         }
         volume {
           name = "${var.stack}-${var.context}"
