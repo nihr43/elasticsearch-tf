@@ -81,6 +81,10 @@ resource "kubernetes_deployment" "main" {
             name  = "elasticsearch.cluster.name"
             value = "${var.stack}-${var.context}"
           }
+          env {
+            name  = "node.name"
+            value = "${var.stack}-${var.context}"
+          }
         }
         volume {
           name = "${var.stack}-${var.context}"
