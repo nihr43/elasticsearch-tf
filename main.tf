@@ -77,6 +77,10 @@ resource "kubernetes_deployment" "main" {
             name  = "discovery.type"
             value = "single-node"
           }
+          env {
+            name  = "elasticsearch.cluster.name"
+            value = "${var.stack}-${var.context}"
+          }
         }
         volume {
           name = "${var.stack}-${var.context}"
