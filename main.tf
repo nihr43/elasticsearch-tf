@@ -85,6 +85,14 @@ resource "kubernetes_deployment" "main" {
             name  = "node.name"
             value = "${var.stack}-${var.context}"
           }
+          env {
+            name  = "xpack.security.enabled"
+            value = "true"
+          }
+          env {
+            name  = "xpack.security.autoconfiguration.enabled"
+            value = "true"
+          }
         }
         volume {
           name = "${var.stack}-${var.context}"
