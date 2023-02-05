@@ -94,15 +94,7 @@ resource "kubernetes_deployment" "main" {
             value = "${var.stack}-${var.context}"
           }
           env {
-            name  = "xpack.security.enabled"
-            value = "true"
-          }
-          env {
             name  = "xpack.security.autoconfiguration.enabled"
-            value = "true"
-          }
-          env {
-            name  = "xpack.security.transport.ssl.enabled"
             value = "true"
           }
         }
