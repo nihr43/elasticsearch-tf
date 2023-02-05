@@ -21,6 +21,7 @@ module "elasticsearch-prod" {
   ip = "10.0.100.101"
   image = "docker.elastic.co/elasticsearch/elasticsearch:8.6.1"
   storage = "8Gi"
+  memory = "4"
 }
 
 module "elasticsearch-staging" {
@@ -29,5 +30,6 @@ module "elasticsearch-staging" {
   ip = "10.0.100.100"
   image = "docker.elastic.co/elasticsearch/elasticsearch:8.6.1"
   storage = "4Gi"
+  memory = "1"
 }
 ```
