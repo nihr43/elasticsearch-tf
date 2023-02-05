@@ -55,10 +55,10 @@ resource "kubernetes_deployment" "main" {
             name       = "${var.stack}-${var.context}"
             mount_path = "/usr/share/elasticsearch/data"
           }
-        }
-        env {
-          name  = "ES_JAVA_OPTS"
-          value = "-Xms${var.memory}g -Xmx${var.memory}g"
+          env {
+            name  = "ES_JAVA_OPTS"
+            value = "-Xms${var.memory}g -Xmx${var.memory}g"
+          }
         }
         volume {
           name = "${var.stack}-${var.context}"
