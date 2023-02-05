@@ -78,7 +78,7 @@ resource "kubernetes_deployment" "main" {
             value = "single-node"
           }
           env {
-            name  = "elasticsearch.cluster.name"
+            name  = "cluster.name"
             value = "${var.stack}-${var.context}"
           }
           env {
