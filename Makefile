@@ -1,0 +1,2 @@
+lint:
+	terraform fmt
