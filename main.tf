@@ -52,21 +52,29 @@ resource "kubernetes_deployment" "main" {
           image = "alpine"
           name  = "chown-elasticsearch"
           volume_mount {
-            name       = "${var.stack}-${var.context}"
+            name       = "${var.stack}-${var.context}-certs"
+            mount_path = "/usr/share/elasticsearch/config/certs"
+          }
+          volume_mount {
+            name       = "${var.stack}-${var.context}-data"
             mount_path = "/usr/share/elasticsearch/data"
           }
           command = [
             "chown",
             "-R",
             "1000:0",
-            "/usr/share/elasticsearch/data"
+            "/usr/share/elasticsearch"
           ]
         }
         container {
           image = var.image
           name  = "${var.stack}-${var.context}"
           volume_mount {
-            name       = "${var.stack}-${var.context}"
+            name       = "${var.stack}-${var.context}-certs"
+            mount_path = "/usr/share/elasticsearch/config/certs"
+          }
+          volume_mount {
+            name       = "${var.stack}-${var.context}-data"
             mount_path = "/usr/share/elasticsearch/data"
           }
           env {
@@ -99,9 +107,15 @@ resource "kubernetes_deployment" "main" {
           }
         }
         volume {
-          name = "${var.stack}-${var.context}"
+          name = "${var.stack}-${var.context}-certs"
           persistent_volume_claim {
-            claim_name = "${var.stack}-${var.context}"
+            claim_name = "${var.stack}-${var.context}-certs"
+          }
+        }
+        volume {
+          name = "${var.stack}-${var.context}-data"
+          persistent_volume_claim {
+            claim_name = "${var.stack}-${var.context}-data"
           }
         }
       }
@@ -109,9 +123,24 @@ resource "kubernetes_deployment" "main" {
   }
 }
 
-resource "kubernetes_persistent_volume_claim" "main" {
+resource "kubernetes_persistent_volume_claim" "certs" {
   metadata {
-    name = "${var.stack}-${var.context}"
+    name = "${var.stack}-${var.context}-certs"
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = var.storage
+      }
+    }
+    storage_class_name = "rook-ceph-block"
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "data" {
+  metadata {
+    name = "${var.stack}-${var.context}-data"
   }
   spec {
     access_modes = ["ReadWriteOnce"]
